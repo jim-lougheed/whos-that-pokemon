@@ -2,33 +2,29 @@
     import Card from "../Card/Card.svelte";
     import { POKEMON_TOTAL } from "../../common/constants";
     import CryButton from "../CryButton/CryButton.svelte";
-    import { questionCounterStore, scoreCounterStore } from "../../common/store";
+    import { answerKeyStore, pokemonNumberStore, questionCounterStore, scoreCounterStore } from "../../common/store";
     
     let questionNum = 0;
     const unsubscribeQuestionNum = questionCounterStore.subscribe((value => questionNum = value));
 
     let score = 0;
     const unsubscribeScore = scoreCounterStore.subscribe((value => score = value));
-    
-    const getRandomPokemonNumbers = (numPokemon: number) => {
-        const maxNumber = POKEMON_TOTAL;
-        const randomNumbersArray: number[] = [];
-        for (let i = 0; i < numPokemon; i++) {
-            let randomInt = Math.floor(Math.random() * (maxNumber));
-            while (randomNumbersArray.includes(randomInt)) {
-                randomInt = Math.floor(Math.random() * (maxNumber));
-            }
-            randomNumbersArray.push(randomInt);
-        }
-        return randomNumbersArray;
-    }
-    const grab3Pokemon = () => {
-        for (let i = 0; i < 3; i++) {
-            fetch(``)
-        }
-    }
 
-    const randomPokemonNumbers = getRandomPokemonNumbers(3);
+    let generatedPokemonNumbers: number[][] = [];
+    const unsubscribePokemonNumbers = pokemonNumberStore.subscribe((value => generatedPokemonNumbers = value));
+
+    let generatedAnswerKey: number[] = [];
+    const unsubscribeAnswerKey = answerKeyStore.subscribe((value => generatedAnswerKey = value));
+    console.log("ANSWER KEY", generatedAnswerKey);
+    
+    const handleSelectCard = (selectedIndex: number) => {
+        console.log("HANDLING SELECTED CARD", selectedIndex, generatedAnswerKey[questionNum - 1], questionNum - 1);
+        if (selectedIndex === generatedAnswerKey[questionNum - 1]) {
+            console.log("UPDATES");
+            scoreCounterStore.update((value => value += 1));
+        };
+        questionCounterStore.update((value => value += 1));
+    }
 </script>
 
 <div class="question-number-container">
@@ -39,13 +35,13 @@
 </div>
 
 <div class="card-container">
-    <Card cardIndex={1} cardNum={randomPokemonNumbers[0]}/>
-    <Card cardIndex={2} cardNum={randomPokemonNumbers[1]}/>
-    <Card cardIndex={3} cardNum={randomPokemonNumbers[2]}/>
+    <Card cardIndex={1} cardNum={generatedPokemonNumbers[questionNum - 1][0]} {handleSelectCard}/>
+    <Card cardIndex={2} cardNum={generatedPokemonNumbers[questionNum - 1][1]} {handleSelectCard}/>
+    <Card cardIndex={3} cardNum={generatedPokemonNumbers[questionNum - 1][2]} {handleSelectCard}/>
 </div>
 
 <div class="cry-button-container">
-    <CryButton cryNum={randomPokemonNumbers[0]}/>
+    <CryButton cryNum={generatedPokemonNumbers[questionNum - 1][0]}/>
 </div>
 
 <style>
