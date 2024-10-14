@@ -1,6 +1,6 @@
 <script lang="ts">
     import Card from "../Card/Card.svelte";
-    import { POKEMON_TOTAL } from "../constants";
+import { POKEMON_TOTAL } from "../../common/constants";
 
     let score = 0;
     
