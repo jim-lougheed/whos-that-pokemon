@@ -13,6 +13,7 @@
     function playback() {
         const playSound = ctx.createBufferSource();
         playSound.buffer = soundFile;
+        playSound.playbackRate.value = 0.5;
         playSound.connect(ctx.destination);
         playSound.start(ctx.currentTime);
     }

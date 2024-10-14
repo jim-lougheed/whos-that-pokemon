@@ -55,5 +55,10 @@ import { POKEMON_TOTAL } from "../../common/constants";
         justify-content: center;
         gap: 1rem;
     }
+
+    .cry-button-container {
+        display: flex;
+        justify-content: center;
+    }
 </style>
 
