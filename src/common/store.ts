@@ -29,7 +29,7 @@ const getAnswerKey = (numRounds: number) => {
 }
 
 // Score and question number
-export const questionCounterStore = writable(1);
+export const questionIndexStore = writable(0);
 export const scoreCounterStore = writable(0);
 
 // Randomly generated options and answers;

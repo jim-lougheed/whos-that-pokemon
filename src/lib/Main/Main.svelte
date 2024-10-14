@@ -2,10 +2,10 @@
     import Card from "../Card/Card.svelte";
     import { POKEMON_TOTAL } from "../../common/constants";
     import CryButton from "../CryButton/CryButton.svelte";
-    import { answerKeyStore, pokemonNumberStore, questionCounterStore, scoreCounterStore } from "../../common/store";
+    import { answerKeyStore, pokemonNumberStore, questionIndexStore, scoreCounterStore } from "../../common/store";
     
     let questionNum = 0;
-    const unsubscribeQuestionNum = questionCounterStore.subscribe((value => questionNum = value));
+    const unsubscribeQuestionNum = questionIndexStore.subscribe((value => questionNum = value));
 
     let score = 0;
     const unsubscribeScore = scoreCounterStore.subscribe((value => score = value));
@@ -15,33 +15,37 @@
 
     let generatedAnswerKey: number[] = [];
     const unsubscribeAnswerKey = answerKeyStore.subscribe((value => generatedAnswerKey = value));
-    console.log("ANSWER KEY", generatedAnswerKey);
+
+    let cryNum = generatedPokemonNumbers[0][generatedAnswerKey[0] - 1];
     
     const handleSelectCard = (selectedIndex: number) => {
-        console.log("HANDLING SELECTED CARD", selectedIndex, generatedAnswerKey[questionNum - 1], questionNum - 1);
-        if (selectedIndex === generatedAnswerKey[questionNum - 1]) {
-            console.log("UPDATES");
+        if (selectedIndex === generatedAnswerKey[questionNum]) {
             scoreCounterStore.update((value => value += 1));
         };
-        questionCounterStore.update((value => value += 1));
+        if (questionNum < 10) {
+            questionIndexStore.update((value => value += 1));
+        } else {
+
+        }
+        cryNum = generatedPokemonNumbers[questionNum][generatedAnswerKey[questionNum] - 1];
     }
 </script>
 
 <div class="question-number-container">
-    Question: {questionNum}
+    Question: {questionNum + 1}
 </div>
 <div class="score-container">
     Your score is {score}
 </div>
 
 <div class="card-container">
-    <Card cardIndex={1} cardNum={generatedPokemonNumbers[questionNum - 1][0]} {handleSelectCard}/>
-    <Card cardIndex={2} cardNum={generatedPokemonNumbers[questionNum - 1][1]} {handleSelectCard}/>
-    <Card cardIndex={3} cardNum={generatedPokemonNumbers[questionNum - 1][2]} {handleSelectCard}/>
+    <Card cardIndex={1} cardNum={generatedPokemonNumbers[questionNum][0]} {handleSelectCard}/>
+    <Card cardIndex={2} cardNum={generatedPokemonNumbers[questionNum][1]} {handleSelectCard}/>
+    <Card cardIndex={3} cardNum={generatedPokemonNumbers[questionNum][2]} {handleSelectCard}/>
 </div>
 
 <div class="cry-button-container">
-    <CryButton cryNum={generatedPokemonNumbers[questionNum - 1][0]}/>
+    <CryButton cryNum={cryNum}/>
 </div>
 
 <style>
