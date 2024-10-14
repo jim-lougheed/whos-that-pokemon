@@ -2,9 +2,9 @@
     import Card from "../Card/Card.svelte";
 import { POKEMON_TOTAL } from "../../common/constants";
   import CryButton from "../CryButton/CryButton.svelte";
-  import { questionNumber } from "../../common/store";
+  import { questionCounterStore } from "../../common/store";
   let questionNum = 0;
-  const unsubscribeQuestionNum = questionNumber.subscribe((value => questionNum = value));
+  const unsubscribeQuestionNum = questionCounterStore.subscribe((value => questionNum = value));
 
     let score = 0;
     // let questionNum = 1;

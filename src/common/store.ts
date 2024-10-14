@@ -1,4 +1,3 @@
 import { writable } from "svelte/store";
 
-export const questionNumber = writable(1);
-
+export const questionCounterStore = writable(1);
