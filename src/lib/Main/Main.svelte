@@ -4,6 +4,7 @@ import { POKEMON_TOTAL } from "../../common/constants";
   import CryButton from "../CryButton/CryButton.svelte";
 
     let score = 0;
+    let questionNum = 1;
     
     const getRandomPokemonNumbers = (numPokemon: number) => {
         const maxNumber = POKEMON_TOTAL;
@@ -26,6 +27,9 @@ import { POKEMON_TOTAL } from "../../common/constants";
     const randomPokemonNumbers = getRandomPokemonNumbers(3);
 </script>
 
+<div class="question-number-container">
+    Question: {questionNum}
+</div>
 <div class="score-container">
     Your score is {score}
 </div>
