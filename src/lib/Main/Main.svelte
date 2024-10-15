@@ -3,6 +3,7 @@
     import { POKEMON_TOTAL } from "../../common/constants";
     import CryButton from "../CryButton/CryButton.svelte";
     import { answerKeyStore, pokemonNumberStore, questionIndexStore, scoreCounterStore } from "../../common/store";
+  import Response from "../Response/Response.svelte";
     
     let questionNum = 0;
     const unsubscribeQuestionNum = questionIndexStore.subscribe((value => questionNum = value));
@@ -17,6 +18,7 @@
     const unsubscribeAnswerKey = answerKeyStore.subscribe((value => generatedAnswerKey = value));
 
     let cryNum = generatedPokemonNumbers[0][generatedAnswerKey[0] - 1];
+    let isQuestion = true;
     
     const handleSelectCard = (selectedIndex: number) => {
         if (selectedIndex === generatedAnswerKey[questionNum]) {
@@ -27,7 +29,11 @@
         } else {
 
         }
+        isQuestion = false;
         cryNum = generatedPokemonNumbers[questionNum][generatedAnswerKey[questionNum] - 1];
+        setTimeout(() => {
+            isQuestion = true;
+        }, 1000);
     }
 </script>
 
@@ -38,15 +44,25 @@
     Your score is {score}
 </div>
 
-<div class="card-container">
-    <Card cardIndex={1} cardNum={generatedPokemonNumbers[questionNum][0]} {handleSelectCard}/>
-    <Card cardIndex={2} cardNum={generatedPokemonNumbers[questionNum][1]} {handleSelectCard}/>
-    <Card cardIndex={3} cardNum={generatedPokemonNumbers[questionNum][2]} {handleSelectCard}/>
-</div>
+<!-- {#if isQuestion}
 
-<div class="cry-button-container">
-    <CryButton cryNum={cryNum}/>
-</div>
+    <div class="question-container">
+        <div class="card-container">
+            <Card cardIndex={1} cardNum={generatedPokemonNumbers[questionNum][0]} {handleSelectCard}/>
+            <Card cardIndex={2} cardNum={generatedPokemonNumbers[questionNum][1]} {handleSelectCard}/>
+            <Card cardIndex={3} cardNum={generatedPokemonNumbers[questionNum][2]} {handleSelectCard}/>
+        </div>
+        
+        <div class="cry-button-container">
+            <CryButton cryNum={cryNum}/>
+        </div>
+    </div>
+
+{:else} -->
+    <div class="response-container">
+        <Response />
+    </div>
+<!-- {/if} -->
 
 <style>
     .score-container {
@@ -65,6 +81,12 @@
     }
 
     .cry-button-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .response-container {
+        width: 100%;
         display: flex;
         justify-content: center;
     }
