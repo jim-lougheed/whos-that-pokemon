@@ -14,11 +14,12 @@
 </script>
 
 <div class="response-background {correct_class}">
-    <p>{RESPONSE_ICON[response]} {RESPONSE_TEXT[response][0]}</p>
+    <p>{RESPONSE_ICON[response]} {RESPONSE_TEXT[response][Math.floor(Math.random() * 4)]}</p>
 </div>
 
 <style>
     .response-background {
+        margin-top: 100px;
         width: 500px;
         height: 100px;
         text-align: center;

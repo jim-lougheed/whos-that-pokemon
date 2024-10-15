@@ -3,7 +3,7 @@
     import { POKEMON_TOTAL } from "../../common/constants";
     import CryButton from "../CryButton/CryButton.svelte";
     import { answerKeyStore, pokemonNumberStore, questionIndexStore, scoreCounterStore } from "../../common/store";
-  import Response from "../Response/Response.svelte";
+    import Response from "../Response/Response.svelte";
     
     let questionNum = 0;
     const unsubscribeQuestionNum = questionIndexStore.subscribe((value => questionNum = value));
@@ -44,7 +44,7 @@
     Your score is {score}
 </div>
 
-<!-- {#if isQuestion}
+{#if isQuestion}
 
     <div class="question-container">
         <div class="card-container">
@@ -58,11 +58,11 @@
         </div>
     </div>
 
-{:else} -->
+{:else}
     <div class="response-container">
         <Response />
     </div>
-<!-- {/if} -->
+{/if}
 
 <style>
     .score-container {
