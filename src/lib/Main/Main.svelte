@@ -5,35 +5,34 @@
     import { answerKeyStore, pokemonNumberStore, questionIndexStore, scoreCounterStore } from "../../common/store";
     import Response from "../Response/Response.svelte";
     
-    let questionNum = 0;
-    const unsubscribeQuestionNum = questionIndexStore.subscribe((value => questionNum = value));
-
+    // STORE VALUES
+    let questionIndex = 0;
+    const unsubscribeQuestionNum = questionIndexStore.subscribe((value => questionIndex = value));
     let score = 0;
     const unsubscribeScore = scoreCounterStore.subscribe((value => score = value));
-
     let generatedPokemonNumbers: number[][] = [];
     const unsubscribePokemonNumbers = pokemonNumberStore.subscribe((value => generatedPokemonNumbers = value));
-
     let generatedAnswerKey: number[] = [];
     const unsubscribeAnswerKey = answerKeyStore.subscribe((value => generatedAnswerKey = value));
 
+    // UI CONTROLS
     let cryNum = generatedPokemonNumbers[0][generatedAnswerKey[0] - 1];
     let stage: "start" | "question" | "response" | "results" = "start";
     let response: "correct" | "incorrect";
     
     const handleSelectCard = (selectedIndex: number) => {
-        if (selectedIndex === generatedAnswerKey[questionNum]) {
+        if (selectedIndex === generatedAnswerKey[questionIndex]) {
             scoreCounterStore.update((value => value += 1));
             response = "correct";
         } else {
             response = "incorrect";
         };
+
         stage = "response";
-        if (questionNum < 9) {
-            console.log("QUESTION NUM", questionNum);
-            questionIndexStore.update((value => value += 1));
-            cryNum = generatedPokemonNumbers[questionNum][generatedAnswerKey[questionNum] - 1];
+        if (questionIndex < 9) {
             setTimeout(() => {
+                questionIndexStore.update((value => value += 1));
+                cryNum = generatedPokemonNumbers[questionIndex][generatedAnswerKey[questionIndex] - 1];
                 stage = "question";
             }, 1000);
         } else {
@@ -44,24 +43,25 @@
     }
 </script>
 
-<div class="question-number-container">
-    Question: {questionNum + 1}
-</div>
-<div class="score-container">
-    Your score is {score}
-</div>
-
 {#if stage === "start"}
 
     <button on:click={() => stage = "question"}>START</button>
 
 {:else if stage === "question"}
 
+    <div class="question-number-container">
+        Question: <span class="integer">{questionIndex + 1}</span>
+    </div>
+
+    <div class="score-container">
+        Score: <span class="integer">{score} / 10</span>
+    </div>
+
     <div class="question-container">
         <div class="card-container">
-            <Card cardIndex={1} cardNum={generatedPokemonNumbers[questionNum][0]} {handleSelectCard}/>
-            <Card cardIndex={2} cardNum={generatedPokemonNumbers[questionNum][1]} {handleSelectCard}/>
-            <Card cardIndex={3} cardNum={generatedPokemonNumbers[questionNum][2]} {handleSelectCard}/>
+            <Card cardIndex={1} cardNum={generatedPokemonNumbers[questionIndex][0]} {handleSelectCard}/>
+            <Card cardIndex={2} cardNum={generatedPokemonNumbers[questionIndex][1]} {handleSelectCard}/>
+            <Card cardIndex={3} cardNum={generatedPokemonNumbers[questionIndex][2]} {handleSelectCard}/>
         </div>
         
         <div class="cry-button-container">
@@ -70,6 +70,14 @@
     </div>
 
 {:else if stage === "response"}
+
+    <div class="question-number-container">
+        Question: <span class="integer">{questionIndex + 1}</span>
+    </div>
+
+    <div class="score-container">
+        Score: <span class="integer">{score} / 10</span>
+    </div>
 
     <div class="response-container">
         <Response response={response}/>
@@ -82,9 +90,16 @@
 {/if}
 
 <style>
+    .question-number-container {
+        padding: 10px;
+        position: absolute;
+        top: 2rem;
+        left: 2rem;
+    }
+
     .score-container {
-        border: red solid 5px;
-        border-radius: 16px;
+        /* border: red solid 5px;
+        border-radius: 16px; */
         padding: 10px;
         position: absolute;
         top: 2rem;
@@ -106,6 +121,10 @@
         width: 100%;
         display: flex;
         justify-content: center;
+    }
+
+    .integer {
+        font-size: 2rem;
     }
 </style>
 
