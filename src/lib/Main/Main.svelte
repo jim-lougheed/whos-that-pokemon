@@ -18,22 +18,29 @@
     const unsubscribeAnswerKey = answerKeyStore.subscribe((value => generatedAnswerKey = value));
 
     let cryNum = generatedPokemonNumbers[0][generatedAnswerKey[0] - 1];
-    let isQuestion = true;
+    let stage: "start" | "question" | "response" | "results" = "start";
+    let response: "correct" | "incorrect";
     
     const handleSelectCard = (selectedIndex: number) => {
         if (selectedIndex === generatedAnswerKey[questionNum]) {
             scoreCounterStore.update((value => value += 1));
-        };
-        if (questionNum < 10) {
-            questionIndexStore.update((value => value += 1));
+            response = "correct";
         } else {
-
+            response = "incorrect";
+        };
+        stage = "response";
+        if (questionNum < 9) {
+            console.log("QUESTION NUM", questionNum);
+            questionIndexStore.update((value => value += 1));
+            cryNum = generatedPokemonNumbers[questionNum][generatedAnswerKey[questionNum] - 1];
+            setTimeout(() => {
+                stage = "question";
+            }, 1000);
+        } else {
+            setTimeout(() => {
+                stage = "results";
+            }, 1000);
         }
-        isQuestion = false;
-        cryNum = generatedPokemonNumbers[questionNum][generatedAnswerKey[questionNum] - 1];
-        setTimeout(() => {
-            isQuestion = true;
-        }, 1000);
     }
 </script>
 
@@ -44,7 +51,11 @@
     Your score is {score}
 </div>
 
-{#if isQuestion}
+{#if stage === "start"}
+
+    <button on:click={() => stage = "question"}>START</button>
+
+{:else if stage === "question"}
 
     <div class="question-container">
         <div class="card-container">
@@ -58,10 +69,16 @@
         </div>
     </div>
 
-{:else}
+{:else if stage === "response"}
+
     <div class="response-container">
-        <Response />
+        <Response response={response}/>
     </div>
+
+{:else if stage === "results"}
+
+    <p>RESULTS</p>
+
 {/if}
 
 <style>
