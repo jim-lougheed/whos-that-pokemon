@@ -4,6 +4,7 @@
     import CryButton from "../CryButton/CryButton.svelte";
     import { answerKeyStore, pokemonNumberStore, questionIndexStore, scoreCounterStore } from "../../common/store";
     import Response from "../Response/Response.svelte";
+  import Start from "../Start/Start.svelte";
     
     // STORE VALUES
     let questionIndex = 0;
@@ -41,11 +42,15 @@
             }, 1000);
         }
     }
+
+    const startGame = () => stage = "question";
 </script>
 
 {#if stage === "start"}
 
-    <button on:click={() => stage = "question"}>START</button>
+    <div class="start-container">
+        <Start startGame={startGame}></Start>
+    </div>
 
 {:else if stage === "question"}
 
@@ -104,6 +109,11 @@
         position: absolute;
         top: 2rem;
         right: 2rem;
+    }
+
+    .start-container {
+        display: flex;
+        justify-content: center;
     }
 
     .card-container{
