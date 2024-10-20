@@ -19,7 +19,7 @@
 
     // UI CONTROLS
     let cryNum = generatedPokemonNumbers[0][generatedAnswerKey[0] - 1];
-    let stage: "start" | "question" | "response" | "results" = "results";
+    let stage: "start" | "question" | "response" | "results" = "start";
     let gameDifficulty: "easy" | "medium" | "hard";
     let response: "correct" | "incorrect";
     
