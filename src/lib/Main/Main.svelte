@@ -46,6 +46,7 @@
     }
 
     const startGame = () => stage = "question";
+    const restartGame = () => stage = "start";
     const updateDifficulty = (difficulty: "easy" | "medium" | "hard") => {
         gameDifficulty = difficulty;
         console.log("UPDATED DIFFICULTY", difficulty);
@@ -97,7 +98,7 @@
 {:else if stage === "results"}
 
     <div class="results-container">
-        <Results />
+        <Results restartGame={restartGame}></Results>
     </div>
 
 {/if}

@@ -1,7 +1,5 @@
 <script lang="ts">
-    const restartGame = () => {
-        console.log("RESTART GAME");
-    }
+    export let restartGame: () => {};
 </script>
 
 <div>
