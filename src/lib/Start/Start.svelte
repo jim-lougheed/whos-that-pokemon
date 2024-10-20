@@ -55,12 +55,6 @@
         font-size: 1.5rem;
     }
 
-    @media screen and (max-width: 500px) {
-        /* .input-container label {
-            
-        } */
-    }
-
     .input-container input:checked + label {
         background: url("../../assets/images/pokeball-icon.png") no-repeat 10% 50%;
         background-size: 30px 30px;
