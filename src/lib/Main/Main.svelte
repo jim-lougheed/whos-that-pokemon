@@ -19,7 +19,7 @@
 
     // UI CONTROLS
     let cryNum = generatedPokemonNumbers[0][generatedAnswerKey[0] - 1];
-    let stage: "start" | "question" | "response" | "results" = "start";
+    let stage: "start" | "question" | "response" | "results" = "results";
     let gameDifficulty: "easy" | "medium" | "hard";
     let response: "correct" | "incorrect";
     
@@ -96,7 +96,9 @@
 
 {:else if stage === "results"}
 
-    <Results />
+    <div class="results-container">
+        <Results />
+    </div>
 
 {/if}
 
@@ -117,7 +119,7 @@
         right: 2rem;
     }
 
-    .start-container {
+    .start-container, .results-container {
         display: flex;
         justify-content: center;
         text-align: center;
