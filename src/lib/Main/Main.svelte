@@ -5,6 +5,7 @@
     import { answerKeyStore, pokemonNumberStore, questionIndexStore, scoreCounterStore } from "../../common/store";
     import Response from "../Response/Response.svelte";
     import Start from "../Start/Start.svelte";
+  import Results from "../Results/Results.svelte";
     
     // STORE VALUES
     let questionIndex = 0;
@@ -95,7 +96,7 @@
 
 {:else if stage === "results"}
 
-    <p>RESULTS</p>
+    <Results />
 
 {/if}
 
