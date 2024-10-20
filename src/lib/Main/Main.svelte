@@ -4,7 +4,7 @@
     import CryButton from "../CryButton/CryButton.svelte";
     import { answerKeyStore, pokemonNumberStore, questionIndexStore, scoreCounterStore } from "../../common/store";
     import Response from "../Response/Response.svelte";
-  import Start from "../Start/Start.svelte";
+    import Start from "../Start/Start.svelte";
     
     // STORE VALUES
     let questionIndex = 0;
@@ -19,6 +19,7 @@
     // UI CONTROLS
     let cryNum = generatedPokemonNumbers[0][generatedAnswerKey[0] - 1];
     let stage: "start" | "question" | "response" | "results" = "start";
+    let gameDifficulty: "easy" | "medium" | "hard";
     let response: "correct" | "incorrect";
     
     const handleSelectCard = (selectedIndex: number) => {
@@ -44,12 +45,16 @@
     }
 
     const startGame = () => stage = "question";
+    const updateDifficulty = (difficulty: "easy" | "medium" | "hard") => {
+        gameDifficulty = difficulty;
+        console.log("UPDATED DIFFICULTY", difficulty);
+    };
 </script>
 
 {#if stage === "start"}
 
     <div class="start-container">
-        <Start startGame={startGame}></Start>
+        <Start startGame={startGame} updateDifficulty={updateDifficulty} gameDifficulty={gameDifficulty}></Start>
     </div>
 
 {:else if stage === "question"}
@@ -114,6 +119,7 @@
     .start-container {
         display: flex;
         justify-content: center;
+        text-align: center;
     }
 
     .card-container{

@@ -1,27 +1,43 @@
 <script lang="ts">
-    export let startGame: () => {};
+  import type { difficulties } from "../../types";
 
+    export let startGame: () => {};
+    export let updateDifficulty: (difficulty: difficulties) => void;
+    export let gameDifficulty;
+    const difficulties: difficulties[]  = ["easy", "medium", "hard"];
 </script>
 <div>
-    <p>Prove your worth as a Pokémon Master by identifying all 1025 Pokémon by sound.</p>
+    <p class="start-sub-header">Prove your worth as a Pokémon Master by identifying all 1025 Pokémon by sound.</p>
     <h2>Select a difficulty</h2>
 
     <div class="input-container">
-        <input type="radio" id="easy" name="difficulty" value="easy" checked />
-        <!-- <img aria-hidden="true" src="../../src/assets/images/pokeball-icon.png" /> -->
-        <label for="easy">EASY</label>
-        <input type="radio" id="medium" name="difficulty" value="medium" />
-        <!-- <img aria-hidden="true" src="../../src/assets/images/pokeball-icon.png" /> -->
-        <label for="medium">MEDIUM</label>
-        <input type="radio" id="hard" name="difficulty" value="hard" checked />
-        <!-- <img aria-hidden="true" src="../../src/assets/images/pokeball-icon.png" /> -->
-        <label for="hard">HARD</label>
+        {#each difficulties as difficulty}
+            <input type="radio" id="easy" name="difficulty" value={difficulty} on:change={(e) => updateDifficulty(difficulty)}/>
+            <label for={difficulty}>{difficulty.toUpperCase()}</label>
+        {/each}
     </div>
 
-    <button on:click={() => startGame()}>START</button>
+    <button class="start-button" on:click={() => startGame()} disabled={!gameDifficulty}>START</button>
 </div>
 
 <style>
+    .start-sub-header {
+        padding: 0 1rem;
+    }
+
+    .input-container {
+        display: flex;
+        margin: 40px;
+        justify-content: space-between;
+    }
+
+    @media screen and (max-width: 500px) {
+        .input-container {
+            flex-direction: column;
+            gap: 20px;
+        }
+    }
+
     .input-container input {
         position: absolute;
         width: 1px;
@@ -36,6 +52,13 @@
         padding: 2rem 20px 2rem 50px;
         border: 1px red solid;
         border-radius: 5px;
+        font-size: 1.5rem;
+    }
+
+    @media screen and (max-width: 500px) {
+        /* .input-container label {
+            
+        } */
     }
 
     .input-container input:checked + label {
@@ -50,5 +73,9 @@
     .input-container label:hover {
         background-color: red;
         cursor: pointer;
+    }
+
+    .start-button {
+        font-size: 2rem;
     }
 </style>
