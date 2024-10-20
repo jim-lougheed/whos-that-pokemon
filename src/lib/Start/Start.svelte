@@ -3,7 +3,7 @@
 
     export let startGame: () => {};
     export let updateDifficulty: (difficulty: difficulties) => void;
-    export let gameDifficulty;
+    export let gameDifficulty: difficulties;
     const difficulties: difficulties[]  = ["easy", "medium", "hard"];
 </script>
 <div>
@@ -12,7 +12,7 @@
 
     <div class="input-container">
         {#each difficulties as difficulty}
-            <input type="radio" id="easy" name="difficulty" value={difficulty} on:change={(e) => updateDifficulty(difficulty)}/>
+            <input type="radio" id="easy" name="difficulty" bind:group={gameDifficulty} value={difficulty} on:change={(e) => updateDifficulty(difficulty)}/>
             <label for={difficulty}>{difficulty.toUpperCase()}</label>
         {/each}
     </div>
