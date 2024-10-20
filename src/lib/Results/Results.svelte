@@ -1,5 +1,11 @@
 <script lang="ts">
-    export let restartGame: () => {};
+    export let restartGame: () => void;
+    export let score: number;
+    let scorePercentage = (score / 10) * 100;
+    let ranking = scorePercentage >= 90 ? "Master" 
+        : scorePercentage >= 70 ? "Ultra"
+        : scorePercentage >= 50 ? "Great"
+        : "Pokémon";
 </script>
 
 <div>
@@ -7,13 +13,13 @@
     
     <div class="score-container">
         <h2>Your score</h2>
-        <p class="score-percentage">70%</p>
-        <p class="score-fraction">7/10</p>
+        <p class="score-percentage">{scorePercentage}%</p>
+        <p class="score-fraction">{score}/10</p>
     </div>
 
     <div class="rank-container">
         <h3>Your rank</h3>
-        <p class="rank">Ultra Trainer</p>
+        <p class="rank">{ranking} Trainer</p>
     </div>
 
     <button class="restart-button" on:click={() => restartGame()}>RESTART</button>
