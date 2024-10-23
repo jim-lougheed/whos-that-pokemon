@@ -4,6 +4,8 @@
     export let cardIndex: number;
     export let cardNum: number;
     export let handleSelectCard;
+    export let gameDifficulty;
+    $: medium_difficulty = gameDifficulty === "medium" ? "medium-difficulty" : "";
 
     const handleCardClick = () => {
         handleSelectCard(cardIndex);
@@ -18,8 +20,12 @@
                 return res.json();
             }).then((json) => {
                 console.log("JSON", json);
-                spriteURL = json.sprites.front_default;
                 pokemonName = json.name;
+                if (gameDifficulty === "easy") {
+                    spriteURL = json.sprites.front_default;
+                } else if (gameDifficulty === "medium") {
+                    spriteURL = json.sprites.front_default;
+                }
             }).then(() => {
                 imagesLoading = false;
             });
@@ -35,7 +41,7 @@
 <div>
     <button class="card" on:click={() => handleCardClick()}>
         <p>{cardIndex}</p>
-        <img alt={pokemonName + " sprite"} src={imagesLoading ? "../../src/assets/images/pokeball-icon.png" : spriteURL } />
+        <img alt={pokemonName + " sprite"} class={medium_difficulty} src={imagesLoading ? "../../src/assets/images/pokeball-icon.png" : spriteURL} />
     </button>
 </div>
 
@@ -48,6 +54,10 @@
 
     .card img {
         width: 150px;
+    }
+
+    .medium-difficulty {
+        filter: brightness(0);
     }
 </style>
 

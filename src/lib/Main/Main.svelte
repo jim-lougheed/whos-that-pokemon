@@ -52,6 +52,7 @@
         stage = "start";
     };
     const updateDifficulty = (difficulty: "easy" | "medium" | "hard") => {
+        console.log("HERE", difficulty);
         gameDifficulty = difficulty;
         console.log("UPDATED DIFFICULTY", difficulty);
     };
@@ -75,9 +76,9 @@
 
     <div class="question-container">
         <div class="card-container">
-            <Card cardIndex={1} cardNum={generatedPokemonNumbers[questionIndex][0]} {handleSelectCard}/>
-            <Card cardIndex={2} cardNum={generatedPokemonNumbers[questionIndex][1]} {handleSelectCard}/>
-            <Card cardIndex={3} cardNum={generatedPokemonNumbers[questionIndex][2]} {handleSelectCard}/>
+            <Card cardIndex={1} cardNum={generatedPokemonNumbers[questionIndex][0]} {handleSelectCard} gameDifficulty={gameDifficulty}/>
+            <Card cardIndex={2} cardNum={generatedPokemonNumbers[questionIndex][1]} {handleSelectCard} gameDifficulty={gameDifficulty}/>
+            <Card cardIndex={3} cardNum={generatedPokemonNumbers[questionIndex][2]} {handleSelectCard} gameDifficulty={gameDifficulty}/>
         </div>
         
         <div class="cry-button-container">

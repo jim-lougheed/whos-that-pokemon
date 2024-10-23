@@ -12,7 +12,7 @@
 
     <div class="input-container">
         {#each difficulties as difficulty}
-            <input type="radio" id="easy" name="difficulty" bind:group={gameDifficulty} value={difficulty} on:change={(e) => updateDifficulty(difficulty)}/>
+            <input type="radio" id={difficulty} name="difficulty" bind:group={gameDifficulty} value={difficulty} on:click={(e) => updateDifficulty(difficulty)}/>
             <label for={difficulty}>{difficulty.toUpperCase()}</label>
         {/each}
     </div>
