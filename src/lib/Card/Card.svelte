@@ -5,17 +5,20 @@
     export let cardNum: number;
     export let handleSelectCard;
 
-    const handeCardClick = () => {
+    const handleCardClick = () => {
         handleSelectCard(cardIndex);
     }
 
     let spriteURL = "";
+    let pokemonName = "";
     
     const getSprite = (cardNum: number) => {
         fetch(`http://localhost:8080/pokemonPic/${cardNum}`).then((res) => {
                 return res.json();
             }).then((json) => {
+                console.log("JSON", json);
                 spriteURL = json.sprites.front_default;
+                pokemonName = json.name;
             });
     }
 
@@ -26,9 +29,11 @@
     getSprite(cardNum);
 </script>
 
-<div class="card" on:click={() => handeCardClick()}>
-    <p>{cardIndex}</p>
-    <img alt="pokemon sprite" src={spriteURL} />
+<div>
+    <button class="card" on:click={() => handleCardClick()}>
+        <p>{cardIndex}</p>
+        <img alt={pokemonName + " sprite"} src={spriteURL} />
+    </button>
 </div>
 
 
