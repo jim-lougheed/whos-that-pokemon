@@ -31,6 +31,22 @@
     fetchSoundFile();
 </script>
 
-<button on:click={() => playback()}>
-    Play sound
+<button class="replay-sound-button" on:click={() => playback()}>
+    <img class="replay-sound-icon" alt="replay sound" src="../../src/assets/images/replay-icon.png">
+    <span>Play sound</span>
 </button>
+
+<style>
+    .replay-sound-button {
+        margin-top: 1rem;
+        font-size: 2rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .replay-sound-icon {
+        color: white;
+        width: 2rem;
+        margin-right: 20px;
+    }
+</style>
