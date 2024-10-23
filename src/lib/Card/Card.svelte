@@ -11,6 +11,7 @@
 
     let spriteURL = "";
     let pokemonName = "";
+    let imagesLoading = true;
     
     const getSprite = (cardNum: number) => {
         fetch(`http://localhost:8080/pokemonPic/${cardNum}`).then((res) => {
@@ -19,6 +20,8 @@
                 console.log("JSON", json);
                 spriteURL = json.sprites.front_default;
                 pokemonName = json.name;
+            }).then(() => {
+                imagesLoading = false;
             });
     }
 
@@ -32,7 +35,7 @@
 <div>
     <button class="card" on:click={() => handleCardClick()}>
         <p>{cardIndex}</p>
-        <img alt={pokemonName + " sprite"} src={spriteURL} />
+        <img alt={pokemonName + " sprite"} src={imagesLoading ? "../../src/assets/images/pokeball-icon.png" : spriteURL } />
     </button>
 </div>
 
