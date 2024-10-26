@@ -57,6 +57,9 @@
         gameDifficulty = difficulty;
         console.log("UPDATED DIFFICULTY", difficulty);
     };
+    const handleGuess = (guess: string) => {
+        console.log("GUESS: ", guess);
+    }
 </script>
 
 {#if stage === "start"}
@@ -88,7 +91,7 @@
         {:else}
             
             <div class="input-container">
-                <Input />
+                <Input handleGuess={handleGuess}/>
             </div>
         
         {/if}
@@ -146,6 +149,13 @@
     .card-container{
         display: flex;
         justify-content: center;
+        gap: 1rem;
+    }
+
+    .input-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         gap: 1rem;
     }
 
