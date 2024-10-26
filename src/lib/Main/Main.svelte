@@ -6,6 +6,7 @@
     import Response from "../Response/Response.svelte";
     import Start from "../Start/Start.svelte";
   import Results from "../Results/Results.svelte";
+  import Input from "../Input/Input.svelte";
     
     // STORE VALUES
     let questionIndex = 0;
@@ -75,12 +76,23 @@
     </div>
 
     <div class="question-container">
-        <div class="card-container">
-            <Card cardIndex={1} cardNum={generatedPokemonNumbers[questionIndex][0]} {handleSelectCard} gameDifficulty={gameDifficulty}/>
-            <Card cardIndex={2} cardNum={generatedPokemonNumbers[questionIndex][1]} {handleSelectCard} gameDifficulty={gameDifficulty}/>
-            <Card cardIndex={3} cardNum={generatedPokemonNumbers[questionIndex][2]} {handleSelectCard} gameDifficulty={gameDifficulty}/>
-        </div>
+
+        {#if gameDifficulty !== "hard"}
+
+            <div class="card-container" >
+                <Card cardIndex={1} cardNum={generatedPokemonNumbers[questionIndex][0]} {handleSelectCard} gameDifficulty={gameDifficulty}/>
+                <Card cardIndex={2} cardNum={generatedPokemonNumbers[questionIndex][1]} {handleSelectCard} gameDifficulty={gameDifficulty}/>
+                <Card cardIndex={3} cardNum={generatedPokemonNumbers[questionIndex][2]} {handleSelectCard} gameDifficulty={gameDifficulty}/>
+            </div>
+
+        {:else}
+            
+            <div class="input-container">
+                <Input />
+            </div>
         
+        {/if}
+
         <div class="cry-button-container">
             <CryButton cryNum={cryNum}/>
         </div>
