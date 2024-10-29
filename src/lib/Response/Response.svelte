@@ -49,8 +49,8 @@
 
     <!-- {#if gameDifficulty === "hard"} -->
 
-        <p>{pokemonName.toUpperCase()}</p>
-        <Card cardNum={pokemonNum} questionOrResponse={"response"}/>
+        <!-- <p>{pokemonName.toUpperCase()}</p>
+        <Card cardNum={pokemonNum} questionOrResponse={"response"}/> -->
 
     <!-- {/if} -->
     <div class="response-background {correct_class}">

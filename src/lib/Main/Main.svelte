@@ -91,7 +91,13 @@
         <Start startGame={startGame} updateDifficulty={updateDifficulty} gameDifficulty={gameDifficulty}></Start>
     </div>
 
-{:else if stage === "question"}
+{:else if stage === "results"}
+
+    <div class="results-container">
+        <Results restartGame={restartGame} score={score}></Results>
+    </div>
+
+{:else}
 
     <div class="question-number-container">
         Question: <span class="integer">{questionIndex + 1}</span>
@@ -102,27 +108,7 @@
     </div>
 
     <div class="question-container">
-        <Question {gameDifficulty} {handleGuess} {cryNum} pokemonNums={generatedPokemonNumbers[questionIndex]} {handleSelectCard} {stage}/>
-    </div>
-
-{:else if stage === "response"}
-
-    <div class="question-number-container">
-        Question: <span class="integer">{questionIndex + 1}</span>
-    </div>
-
-    <div class="score-container">
-        Score: <span class="integer">{score} / 10</span>
-    </div>
-
-    <div class="response-container">
-        <Response response={response} gameDifficulty={gameDifficulty} pokemonNum={cryNum}/>
-    </div>
-
-{:else if stage === "results"}
-
-    <div class="results-container">
-        <Results restartGame={restartGame} score={score}></Results>
+        <Question {gameDifficulty} {handleGuess} {cryNum} pokemonNums={generatedPokemonNumbers[questionIndex]} {handleSelectCard} {stage} {response}/>
     </div>
 
 {/if}
@@ -148,14 +134,6 @@
         display: flex;
         justify-content: center;
         text-align: center;
-    }
-
-    .response-container {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
     }
 
     .integer {

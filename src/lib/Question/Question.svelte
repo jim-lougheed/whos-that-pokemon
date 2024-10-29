@@ -3,6 +3,7 @@
   import Card from "../Card/Card.svelte";
   import CryButton from "../CryButton/CryButton.svelte";
   import Input from "../Input/Input.svelte";
+  import Response from "../Response/Response.svelte";
 
     export let gameDifficulty: difficulties;
     export let handleGuess: (guess: string, pokemonName: string) => void;
@@ -10,28 +11,50 @@
     export let pokemonNums: number[];
     export let handleSelectCard;
     export let stage;
+    export let response;
 
 </script>
 
 {#if gameDifficulty !== "hard"}
 
     <div class="card-container" >
-        <Card cardIndex={1} cardNum={pokemonNums[0]} {handleSelectCard} gameDifficulty={gameDifficulty} questionOrResponse={"question"}/>
-        <Card cardIndex={2} cardNum={pokemonNums[1]} {handleSelectCard} gameDifficulty={gameDifficulty} questionOrResponse={"question"}/>
-        <Card cardIndex={3} cardNum={pokemonNums[2]} {handleSelectCard} gameDifficulty={gameDifficulty} questionOrResponse={"question"}/>
+        <p>{cryNum}</p>
+        <Card cardIndex={1} cardNum={pokemonNums[0]} {handleSelectCard} gameDifficulty={gameDifficulty} {stage} {cryNum}/>
+        <Card cardIndex={2} cardNum={pokemonNums[1]} {handleSelectCard} gameDifficulty={gameDifficulty} {stage} {cryNum}/>
+        <Card cardIndex={3} cardNum={pokemonNums[2]} {handleSelectCard} gameDifficulty={gameDifficulty} {stage} {cryNum}/>
     </div>
 
 {:else}
+
+    {#if stage === "question"}
             
-    <div class="input-container">
-        <Input handleGuess={handleGuess} pokemonNum={cryNum}/>
-    </div>
+        <div class="input-container">
+            <Input handleGuess={handleGuess} pokemonNum={cryNum}/>
+        </div>
+
+    {:else if stage === "response"}
+    
+        <div class="card-container" >
+            <Card cardNum={cryNum} {stage} {cryNum}/>
+        </div>    
+
+    {/if}
         
 {/if}
 
-<div class="cry-button-container">
-    <CryButton cryNum={cryNum}/>
-</div>
+{#if stage === "question"}
+
+    <div class="cry-button-container">
+        <CryButton cryNum={cryNum}/>
+    </div>
+
+{:else if stage === "response"}
+    
+    <div class="response-container">
+        <Response response={response} gameDifficulty={gameDifficulty} pokemonNum={cryNum}/>
+    </div>
+
+{/if}
 
 <style>
     .card-container{
@@ -50,5 +73,13 @@
     .cry-button-container {
         display: flex;
         justify-content: center;
+    }
+
+    .response-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 </style>
