@@ -7,6 +7,8 @@
     import Start from "../Start/Start.svelte";
   import Results from "../Results/Results.svelte";
   import Input from "../Input/Input.svelte";
+  import { levenshteinDistance } from "../../utils";
+  import Question from "../Question/Question.svelte";
     
     // STORE VALUES
     let questionIndex = 0;
@@ -46,6 +48,30 @@
         }
     }
 
+    const handleGuess = (guess: string, pokemonName: string) => {
+        const guessDistance = levenshteinDistance(guess, pokemonName);
+        console.log("GUESS: ", guess, guessDistance);
+        if (guessDistance <= 3) {
+            scoreCounterStore.update((value => value += 1));
+            response = "correct";
+        } else {
+            response = "incorrect";
+        }
+
+        stage = "response";
+        if (questionIndex < 9) {
+            setTimeout(() => {
+                questionIndexStore.update((value => value += 1));
+                cryNum = generatedPokemonNumbers[questionIndex][generatedAnswerKey[questionIndex] - 1];
+                stage = "question";
+            }, 2000);
+        } else {
+            setTimeout(() => {
+                stage = "results";
+            }, 2000);
+        }  
+    }
+
     const startGame = () => stage = "question";
     const restartGame = () => {
         scoreCounterStore.set(0);
@@ -57,9 +83,6 @@
         gameDifficulty = difficulty;
         console.log("UPDATED DIFFICULTY", difficulty);
     };
-    const handleGuess = (guess: string) => {
-        console.log("GUESS: ", guess);
-    }
 </script>
 
 {#if stage === "start"}
@@ -79,26 +102,7 @@
     </div>
 
     <div class="question-container">
-
-        {#if gameDifficulty !== "hard"}
-
-            <div class="card-container" >
-                <Card cardIndex={1} cardNum={generatedPokemonNumbers[questionIndex][0]} {handleSelectCard} gameDifficulty={gameDifficulty}/>
-                <Card cardIndex={2} cardNum={generatedPokemonNumbers[questionIndex][1]} {handleSelectCard} gameDifficulty={gameDifficulty}/>
-                <Card cardIndex={3} cardNum={generatedPokemonNumbers[questionIndex][2]} {handleSelectCard} gameDifficulty={gameDifficulty}/>
-            </div>
-
-        {:else}
-            
-            <div class="input-container">
-                <Input handleGuess={handleGuess}/>
-            </div>
-        
-        {/if}
-
-        <div class="cry-button-container">
-            <CryButton cryNum={cryNum}/>
-        </div>
+        <Question {gameDifficulty} {handleGuess} {cryNum} pokemonNums={generatedPokemonNumbers[questionIndex]} {handleSelectCard} {stage}/>
     </div>
 
 {:else if stage === "response"}
@@ -112,7 +116,7 @@
     </div>
 
     <div class="response-container">
-        <Response response={response}/>
+        <Response response={response} gameDifficulty={gameDifficulty} pokemonNum={cryNum}/>
     </div>
 
 {:else if stage === "results"}
@@ -146,28 +150,12 @@
         text-align: center;
     }
 
-    .card-container{
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-    }
-
-    .input-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .cry-button-container {
-        display: flex;
-        justify-content: center;
-    }
-
     .response-container {
         width: 100%;
         display: flex;
+        flex-direction: column;
         justify-content: center;
+        align-items: center;
     }
 
     .integer {

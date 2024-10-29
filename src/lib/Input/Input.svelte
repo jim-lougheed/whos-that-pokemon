@@ -1,10 +1,27 @@
 <script lang="ts">
-    export let handleGuess: (guess: string) => void;
+    export let pokemonNum: number;
+    export let handleGuess: (guess: string, pokemonName: string) => void;
+    let pokemonName: string;
     let inputEl: HTMLInputElement;
+    let isLoadingName = true;
+    fetch(`http://localhost:8080/pokemonPic/${pokemonNum}`).then((res) => {
+                return res.json();
+            }).then((json) => {
+                pokemonName = json.name;
+                isLoadingName = false;
+            });
 </script>
 
-<input type="text" bind:this={inputEl} />
-<button on:click={() => handleGuess(inputEl.value)}>Guess</button>
+{#if isLoadingName}
+<p>LOADING</p>
+
+{:else}
+
+    <p>{pokemonName}</p>
+    <input type="text" bind:this={inputEl} />
+    <button on:click={() => handleGuess(inputEl.value, pokemonName)}>Guess</button>
+
+{/if}
 
 <style>
     input {

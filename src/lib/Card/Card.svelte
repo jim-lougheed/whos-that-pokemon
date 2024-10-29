@@ -1,15 +1,16 @@
 <script lang="ts">
   import { afterUpdate } from "svelte";
 
-    export let cardIndex: number;
+    export let cardIndex: number | undefined = undefined;
     export let cardNum: number;
-    export let handleSelectCard;
-    export let gameDifficulty;
+    export let handleSelectCard: Function | undefined = undefined;
+    export let gameDifficulty: string | undefined = undefined;
+    export let questionOrResponse: "question" | "response";
     let sprite: HTMLImageElement;
     $: medium_difficulty = gameDifficulty === "medium" ? "medium-difficulty" : "";
 
     const handleCardClick = () => {
-        handleSelectCard(cardIndex);
+        handleSelectCard && handleSelectCard(cardIndex);
     }
 
     let spriteURL = "";
@@ -22,11 +23,12 @@
             }).then((json) => {
                 console.log("JSON", json);
                 pokemonName = json.name;
-                if (gameDifficulty === "easy") {
+                if (questionOrResponse === "question" && gameDifficulty === "medium") {
                     spriteURL = json.sprites.front_default;
-                } else if (gameDifficulty === "medium") {
+                } else {
                     spriteURL = json.sprites.front_default;
                 }
+                console.log("REACHING HERE", spriteURL, json);
             }).then(() => {
                 if (gameDifficulty === "medium") {
                     sprite.style.filter = "brightness(0)";
@@ -44,7 +46,11 @@
 
 <div>
     <button class="card" on:click={() => handleCardClick()}>
-        <p>{cardIndex}</p>
+        {#if cardIndex}
+            
+            <p>{cardIndex}</p>
+
+        {/if}
         <img alt={pokemonName + " sprite"} bind:this={sprite} class={medium_difficulty} src={imagesLoading ? "../../src/assets/images/pokeball-icon.png" : spriteURL} />
     </button>
 </div>
