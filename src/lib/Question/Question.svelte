@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { afterUpdate } from "svelte";
+    import { afterUpdate } from "svelte";
     import type { difficulties } from "../../types";
     import Card from "../Card/Card.svelte";
     import CryButton from "../CryButton/CryButton.svelte";
@@ -13,7 +13,8 @@
     export let handleSelectCard;
     export let stage;
     export let response;
-    export let correctPokemonName: "";
+    
+    let correctPokemonName: "";
 
     const getCorrectPokemonName = () => {
         fetch(`http://localhost:8080/pokemonPic/${cryNum}`).then((res) => {
@@ -67,7 +68,7 @@
     </div>
     
     <div class="response-container">
-        <Response response={response} gameDifficulty={gameDifficulty} pokemonNum={cryNum}/>
+        <Response {response} />
     </div>
 
 {/if}
