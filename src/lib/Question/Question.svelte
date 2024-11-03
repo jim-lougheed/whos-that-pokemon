@@ -31,10 +31,9 @@
 {#if gameDifficulty !== "hard"}
 
     <div class="card-container" >
-        <p>{cryNum}</p>
-        <Card cardIndex={1} cardNum={pokemonNums[0]} {handleSelectCard} gameDifficulty={gameDifficulty} {stage} {cryNum}/>
-        <Card cardIndex={2} cardNum={pokemonNums[1]} {handleSelectCard} gameDifficulty={gameDifficulty} {stage} {cryNum}/>
-        <Card cardIndex={3} cardNum={pokemonNums[2]} {handleSelectCard} gameDifficulty={gameDifficulty} {stage} {cryNum}/>
+        <Card cardIndex={1} cardNum={pokemonNums[0]} {handleSelectCard} {gameDifficulty} {stage} {cryNum}/>
+        <Card cardIndex={2} cardNum={pokemonNums[1]} {handleSelectCard} {gameDifficulty} {stage} {cryNum}/>
+        <Card cardIndex={3} cardNum={pokemonNums[2]} {handleSelectCard} {gameDifficulty} {stage} {cryNum}/>
     </div>
 
 {:else}
@@ -104,6 +103,5 @@
         text-align: center;
         font-weight: bold;
         font-size: 3rem;
-
     }
 </style>
