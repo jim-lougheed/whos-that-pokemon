@@ -17,9 +17,8 @@
 
 {:else}
 
-    <p>{pokemonName}</p>
-    <input type="text" bind:this={inputEl} />
-    <button on:click={() => handleGuess(inputEl.value, pokemonName)}>Guess</button>
+<input type="text" bind:this={inputEl} />
+<button on:click={() => handleGuess(inputEl.value, pokemonName)}>Guess</button>
 
 {/if}
 
