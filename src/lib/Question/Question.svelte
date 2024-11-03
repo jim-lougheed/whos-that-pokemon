@@ -1,9 +1,10 @@
 <script lang="ts">
-  import type { difficulties } from "../../types";
-  import Card from "../Card/Card.svelte";
-  import CryButton from "../CryButton/CryButton.svelte";
-  import Input from "../Input/Input.svelte";
-  import Response from "../Response/Response.svelte";
+  import { afterUpdate } from "svelte";
+    import type { difficulties } from "../../types";
+    import Card from "../Card/Card.svelte";
+    import CryButton from "../CryButton/CryButton.svelte";
+    import Input from "../Input/Input.svelte";
+    import Response from "../Response/Response.svelte";
 
     export let gameDifficulty: difficulties;
     export let handleGuess: (guess: string, pokemonName: string) => void;
@@ -12,7 +13,19 @@
     export let handleSelectCard;
     export let stage;
     export let response;
+    export let correctPokemonName: "";
 
+    const getCorrectPokemonName = () => {
+        fetch(`http://localhost:8080/pokemonPic/${cryNum}`).then((res) => {
+            return res.json();
+        }).then((json) => {
+            correctPokemonName = json.name;
+        });
+    };
+
+    afterUpdate(() => {
+        getCorrectPokemonName();
+    })
 </script>
 
 {#if gameDifficulty !== "hard"}
@@ -49,6 +62,10 @@
     </div>
 
 {:else if stage === "response"}
+
+    <div class="name-container">
+        <p>{ correctPokemonName.toUpperCase() }</p>
+    </div>
     
     <div class="response-container">
         <Response response={response} gameDifficulty={gameDifficulty} pokemonNum={cryNum}/>
@@ -81,5 +98,12 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+    }
+
+    .name-container {
+        text-align: center;
+        font-weight: bold;
+        font-size: 3rem;
+
     }
 </style>
