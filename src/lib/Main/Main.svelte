@@ -37,11 +37,11 @@
                 questionIndexStore.update((value => value += 1));
                 cryNum = generatedPokemonNumbers[questionIndex][generatedAnswerKey[questionIndex] - 1];
                 stage = "question";
-            }, 1000);
+            }, 2000);
         } else {
             setTimeout(() => {
                 stage = "results";
-            }, 1000);
+            }, 2000);
         }
     };
     
@@ -107,8 +107,6 @@
     }
 
     .score-container {
-        /* border: red solid 5px;
-        border-radius: 16px; */
         padding: 10px;
         position: absolute;
         top: 2rem;
