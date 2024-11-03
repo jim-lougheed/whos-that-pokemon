@@ -1,14 +1,5 @@
 <script lang="ts">
-  import { afterUpdate } from "svelte";
-  import type { difficulties } from "../../types";
-  import Card from "../Card/Card.svelte";
-
     export let response: "correct" | "incorrect" = "correct";
-    export let gameDifficulty: difficulties;
-    export let pokemonNum: number;
-    let isImageLoading = true;
-    let pokemonName = "";
-    let spriteURL = "";
     $: correct_class = response === "correct" ? "correct" : "incorrect";
 
     const RESPONSE_TEXT = {
