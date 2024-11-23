@@ -1,12 +1,13 @@
 <script lang="ts">
   import { afterUpdate } from "svelte";
+  import replayIcon from "../../assets/images/replay-icon.png";
 
     export let cryNum: number;
     const ctx = new AudioContext();
     let soundFile: AudioBuffer;
 
     const fetchSoundFile = () => {
-        fetch(`http://localhost:8080/cries/${cryNum}.ogg`)
+        fetch(`https://whos-that-pokemon-backend.fly.dev/cries/${cryNum}.ogg`)
             .then(data => data.arrayBuffer())
             .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
             .then(decodedAudio => { 
@@ -32,7 +33,7 @@
 </script>
 
 <button class="replay-sound-button" on:click={() => playback()}>
-    <img class="replay-sound-icon" alt="replay sound" src="../../src/assets/images/replay-icon.png">
+    <img class="replay-sound-icon" alt="replay sound" src={replayIcon}>
     <span>Play sound</span>
 </button>
 

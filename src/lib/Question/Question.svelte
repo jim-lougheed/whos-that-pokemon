@@ -17,7 +17,8 @@
     let correctPokemonName: "";
 
     const getCorrectPokemonName = () => {
-        fetch(`http://localhost:8080/pokemonPic/${cryNum}`).then((res) => {
+        console.log("HERE 2", import.meta);
+        fetch(`https://whos-that-pokemon-backend.fly.dev/pokemonPic/${cryNum}`).then((res) => {
             return res.json();
         }).then((json) => {
             correctPokemonName = json.name;

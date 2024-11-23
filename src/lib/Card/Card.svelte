@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { afterUpdate } from "svelte";
+    import { afterUpdate } from "svelte";
+    import pokeballIcon from "../../assets/images/pokeball-icon.png";
 
     export let cardIndex: number | undefined = undefined;
     export let cardNum: number;
@@ -23,7 +24,7 @@
     
     const getSprite = (cardNum: number) => {
         // imagesLoading = true;
-        fetch(`http://localhost:8080/pokemonPic/${cardNum}`).then((res) => {
+        fetch(`https://whos-that-pokemon-backend.fly.dev/pokemonPic/${cardNum}`).then((res) => {
                 return res.json();
             }).then((json) => {
                 pokemonName = json.name;
@@ -49,7 +50,7 @@
 
         {/if}
         
-        <img alt={pokemonName + " sprite"} bind:this={sprite} src={imagesLoading ? "../../src/assets/images/pokeball-icon.png" : spriteURL} class={medium_difficulty}/>
+        <img alt={pokemonName + " sprite"} bind:this={sprite} src={imagesLoading ? pokeballIcon : spriteURL} class={medium_difficulty}/>
     </button>
 </div>
 
@@ -67,10 +68,12 @@
 
     .response-background {
         background-color: red;
+        border-radius: 10px;
     }
 
     .response-background.correct-response {
         background-color: green;
+        border-radius: 10px;
     }
 
     .medium-difficulty {

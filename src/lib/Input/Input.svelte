@@ -4,7 +4,9 @@
     let pokemonName: string;
     let inputEl: HTMLInputElement;
     let isLoadingName = true;
-    fetch(`http://localhost:8080/pokemonPic/${pokemonNum}`).then((res) => {
+    console.log("BEFORE TESTING", import.meta.env.VITE_BACKEND_URL);
+    fetch(`https://whos-that-pokemon-backend.fly.dev/pokemonPic/${pokemonNum}`).then((res) => {
+        console.log("TESTING", import.meta.env.VITE_BACKEND_URL);
                 return res.json();
             }).then((json) => {
                 pokemonName = json.name;
